@@ -60,8 +60,28 @@ function createAsync(name, difficultyLevel, imageUrl = null, description = null)
     });
 }
 
+function searchAsync(search, from, to){
+
+    return new Promise(async (resolve, reject) => {
+        let cubes = await getAllAsync().catch(err => reject(err));
+
+        cubes = cubes.filter(c => c.Name.toLowerCase().includes(search.toLowerCase()));
+        
+        if(from !== ''){
+            cubes = cubes.filter(c => c.DifficultyLevel >= +from);
+        }
+    
+        if(to !== ''){
+            cubes = cubes.filter(c => c.DifficultyLevel <= +to);
+        }
+
+        resolve(cubes);
+    });
+}
+
 module.exports = {
     getAllAsync,
     getByIdAsync,
-    createAsync
+    createAsync,
+    searchAsync
 };

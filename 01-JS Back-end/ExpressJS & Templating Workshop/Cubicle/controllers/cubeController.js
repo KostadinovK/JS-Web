@@ -37,21 +37,17 @@ async function createPost(req, res){
 async function search(req, res){
     let {search, from, to} = req.body;
 
-    let cubes = await service.getAllAsync().catch(err => console.log(err));
-    cubes = cubes.filter(c => c.Name.toLowerCase().includes(search.toLowerCase()));
-
-    if(from === '' && to === ''){
-        res.render('index.hbs', {search: {search, from, to}, cubes});
+    if(isNaN(from) && from !== ''){
+        res.redirect('/');
         return;
     }
-    
-    if(from !== ''){
-        cubes = cubes.filter(c => c.DifficultyLevel >= +from);
+
+    if(isNaN(to) && to !== ''){
+        res.redirect('/');
+        return;
     }
 
-    if(to !== ''){
-        cubes = cubes.filter(c => c.DifficultyLevel <= +to);
-    }
+    let cubes = await service.searchAsync(search, from, to).catch(err => console.log(err));
 
     res.render('index.hbs', {search: {search, from, to}, cubes});
 }
