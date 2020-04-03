@@ -38,14 +38,22 @@ async function search(req, res){
     let {search, from, to} = req.body;
 
     let cubes = await service.getAllAsync().catch(err => console.log(err));
-    cubes = cubes.filter(c => c.Name.includes(search));
+    cubes = cubes.filter(c => c.Name.toLowerCase().includes(search.toLowerCase()));
 
     if(from === '' && to === ''){
-        res.render('index.hbs', {cubes});
+        res.render('index.hbs', {search: {search, from, to}, cubes});
         return;
     }
-   
     
+    if(from !== ''){
+        cubes = cubes.filter(c => c.DifficultyLevel >= +from);
+    }
+
+    if(to !== ''){
+        cubes = cubes.filter(c => c.DifficultyLevel <= +to);
+    }
+
+    res.render('index.hbs', {search: {search, from, to}, cubes});
 }
 
 function about(req, res){
