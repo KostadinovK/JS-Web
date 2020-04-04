@@ -1,25 +1,36 @@
-const uniqid = require('uniqid');
+const mongoose = require('mongoose');
 
-module.exports = class Cube {
-    Id;
-    Name;
-    Description;
-    ImageURL;
-    DifficultyLevel;
-    constructor(name, difficultyLevel, description = null, imageURL = null){
-        
-        if(name === null || name === ''){
-            throw new Error('Invalid Name!');
-        }
+let cubeSchema = new mongoose.Schema({
+    Id: {
+        type: mongoose.SchemaTypes.ObjectId
+    },
+    Name: {
+        type: String,
+        required: true
+    },
+    Description: {
+        type: String,
+        required: true,
+        maxlength: 50
+    },
+    ImageUrl: {
+        type: String,
+        required: true,
+        validate: {
+            validator: function(v) {
+                let regex = new RegExp('^https?://');
+              return regex.test(v);
+            },
+            message: props => `${props.value} is not a valid image url!`
+        },
+    },
+    DifficultyLevel: {
+        type: Number,
+        required: true,
+        min: 1,
+        max: 6
+    },
+    Accessories: [{ type : ObjectId, ref: 'Accessory' }]
+});
 
-        if(difficultyLevel <= 0 || difficultyLevel > 6){
-            throw new Error('Invalid Difficulty Level!');
-        }
-
-        this.Id = uniqid();
-        this.Name = name;
-        this.Description = description;
-        this.ImageURL = imageURL;
-        this.DifficultyLevel = difficultyLevel;
-    }
-}
+module.exports = mongoose.model('Cube', cubeSchema);

@@ -1,5 +1,5 @@
 const fs = require('fs');
-const Cube = require('../models/cube');
+const Cube = require('../models/Cube');
 
 function getAllAsync(){
     return new Promise((resolve, reject) => {
