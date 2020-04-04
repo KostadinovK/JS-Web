@@ -1,7 +1,8 @@
-const service = require('../services/cubeService');
+const cubeService = require('../services/cubeService');
+const accessoryService = require('../services/accessoryService');
 
 async function all(req, res){
-    let cubes = await service.getAllAsync().catch(err => console.log(err));
+    let cubes = await cubeService.getAllAsync().catch(err => console.log(err));
 
     let cubesViewModel = [];
 
@@ -18,7 +19,7 @@ async function all(req, res){
 async function details(req, res){
     let cubeId = req.params.id;
 
-    let {id, Name, Description, ImageUrl, DifficultyLevel, Accessories} = await service.getByIdAsync(cubeId).catch(err => console.log(err));
+    let {id, Name, Description, ImageUrl, DifficultyLevel, Accessories} = await cubeService.getByIdAsync(cubeId).catch(err => console.log(err));
 
     res.render('details.hbs', {cube: { id, Name, ImageUrl, DifficultyLevel, Description}});
 }
@@ -50,7 +51,7 @@ async function createPost(req, res){
         res.redirect('/');
     }
 
-    await service.createAsync(name, difficultyLevel, imageUrl, description).catch(err => console.log(err));
+    await cubeService.createAsync(name, difficultyLevel, imageUrl, description).catch(err => console.log(err));
 
     res.redirect('/');
 }
@@ -68,7 +69,7 @@ async function search(req, res){
         return;
     }
 
-    let cubes = await service.searchAsync(search, from, to).catch(err => console.log(err));
+    let cubes = await cubeService.searchAsync(search, from, to).catch(err => console.log(err));
 
     let cubesViewModel = [];
 
@@ -87,5 +88,5 @@ module.exports = {
     details,
     createGet,
     createPost,
-    search,
+    search
 };
