@@ -1,5 +1,9 @@
 const context = require('../models/index');
 
+function getAllAttachedToCubeAsync(cubeId){
+    return context.accessories.find({ Cubes: cubeId });
+}
+
 function getAllUnAttachedToCubeAsync(cubeId){
     return context.accessories.find({ Cubes: { $nin: cubeId } });
 }
@@ -23,6 +27,7 @@ async function attachToCube(cubeId, accessoryId){
 }
 
 module.exports = {
+    getAllAttachedToCubeAsync,
     getAllUnAttachedToCubeAsync,
     getByIdAsync,
     createAsync,

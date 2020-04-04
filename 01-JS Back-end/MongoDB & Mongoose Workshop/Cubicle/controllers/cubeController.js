@@ -19,9 +19,29 @@ async function all(req, res){
 async function details(req, res){
     let cubeId = req.params.id;
 
-    let {id, Name, Description, ImageUrl, DifficultyLevel, Accessories} = await cubeService.getByIdAsync(cubeId).catch(err => console.log(err));
+    let {id, Name, Description, ImageUrl, DifficultyLevel} = await cubeService.getByIdAsync(cubeId).catch(err => console.log(err));
 
-    res.render('details.hbs', {cube: { id, Name, ImageUrl, DifficultyLevel, Description}});
+    let accessories = await accessoryService.getAllAttachedToCubeAsync(id);
+
+    let viewModel = {
+        cube: {
+            id,
+            Name,
+            Description,
+            ImageUrl,
+            DifficultyLevel,
+            HasAccessories: accessories.length !== 0
+        },
+        accessories: []
+    };
+
+    accessories.map(a => viewModel.accessories.push({
+        Name: a.Name,
+        Description: a.Description,
+        ImageUrl: a.ImageUrl
+    }));
+
+    res.render('details.hbs', {viewModel});
 }
 
 function createGet(req, res){
