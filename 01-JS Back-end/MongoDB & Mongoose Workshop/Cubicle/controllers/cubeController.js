@@ -36,6 +36,16 @@ async function createPost(req, res){
         res.redirect('/');
     }
 
+    const validateImageRegex = new RegExp('^https?://');
+
+    if(!validateImageRegex.test(imageUrl)){
+        res.redirect('/');
+    }
+
+    if(description === null || description === '' || description.length > 200){
+        res.redirect('/');
+    }
+
     if(difficultyLevel <= 0 || difficultyLevel > 6){
         res.redirect('/');
     }
@@ -72,21 +82,10 @@ async function search(req, res){
     res.render('index.hbs', {search: {search, from, to}, cubes: cubesViewModel});
 }
 
-function about(req, res){
-    res.render('about.hbs');
-}
-
-function notFound(req, res){
-    res.status(404);
-    res.render('404.hbs');
-}
-
 module.exports = {
     all,
     details,
     createGet,
     createPost,
     search,
-    about,
-    notFound
 };
