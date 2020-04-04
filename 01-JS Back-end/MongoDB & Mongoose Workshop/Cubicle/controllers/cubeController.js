@@ -2,14 +2,25 @@ const service = require('../services/cubeService');
 
 async function all(req, res){
     let cubes = await service.getAllAsync().catch(err => console.log(err));
-    res.render('index.hbs', {cubes});
+
+    let cubesViewModel = [];
+
+    cubes.map(c => cubesViewModel.push({
+        id: c.id,
+        name: c.Name,
+        imageUrl: c.ImageUrl,
+        level: c.DifficultyLevel
+    }));
+
+    res.render('index.hbs', {cubes: cubesViewModel});
 }
 
 async function details(req, res){
     let cubeId = req.params.id;
 
-    let cube = await service.getByIdAsync(cubeId).catch(err => console.log(err));
-    res.render('details.hbs', {cube});
+    let {id, Name, Description, ImageUrl, DifficultyLevel, Accessories} = await service.getByIdAsync(cubeId).catch(err => console.log(err));
+
+    res.render('details.hbs', {cube: { id, Name, ImageUrl, DifficultyLevel, Description}});
 }
 
 function createGet(req, res){
@@ -49,7 +60,16 @@ async function search(req, res){
 
     let cubes = await service.searchAsync(search, from, to).catch(err => console.log(err));
 
-    res.render('index.hbs', {search: {search, from, to}, cubes});
+    let cubesViewModel = [];
+
+    cubes.map(c => cubesViewModel.push({
+        id: c.id,
+        name: c.Name,
+        imageUrl: c.ImageUrl,
+        level: c.DifficultyLevel
+    }));
+
+    res.render('index.hbs', {search: {search, from, to}, cubes: cubesViewModel});
 }
 
 function about(req, res){

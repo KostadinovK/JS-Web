@@ -1,10 +1,6 @@
 const mongoose = require('mongoose');
 
 let accessorySchema = new mongoose.Schema({
-    Id: {
-        type: mongoose.SchemaTypes.ObjectId,
-        auto: true,
-    },
     Name: {
         type: String,
         required: true
@@ -12,7 +8,7 @@ let accessorySchema = new mongoose.Schema({
     Description: {
         type: String,
         required: true,
-        maxlength: 50
+        maxlength: 200
     },
     ImageUrl: {
         type: String,
@@ -25,7 +21,7 @@ let accessorySchema = new mongoose.Schema({
             message: props => `${props.value} is not a valid image url!`
         },
     },
-    Cubes: [{ type : ObjectId, ref: 'Cube' }]
-}, { _id : false });
+    Cubes: [{ type : mongoose.SchemaTypes.ObjectId, ref: 'Cube' }]
+});
 
 module.exports = mongoose.model('Accessory', accessorySchema);

@@ -29,10 +29,10 @@
       </form>
       {{#each cubes}}
         <div class="cube">
-          <img class="cube" src="{{this.ImageURL}}">
-          <p class="name">{{this.Name}}</p>
-          <p><span>Difficulty level:</span> {{this.DifficultyLevel}}</p>
-          <a class="btn" href="/details/{{this.Id}}">Details</a>
+          <img class="cube" src="{{this.imageUrl}}">
+          <p class="name">{{this.name}}</p>
+          <p><span>Difficulty level:</span> {{this.level}}</p>
+          <a class="btn" href="/details/{{this.id}}">Details</a>
         </div>
       {{/each}}
       
