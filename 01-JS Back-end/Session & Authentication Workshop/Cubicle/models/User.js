@@ -20,12 +20,12 @@ userSchema.methods = {
 };
 
 userSchema.pre('save', function (next) {
-    if (this.isModified('password')) {
+    if (this.isModified('Password')) {
         bcrypt.genSalt(saltRounds, (err, salt) => {
             if (err) { next(err); return; }
-            bcrypt.hash(this.password, salt, (err, hash) => {
+            bcrypt.hash(this.Password, salt, (err, hash) => {
                 if (err) { next(err); return; }
-                this.password = hash;
+                this.Password = hash;
                 next();
             });
         });
