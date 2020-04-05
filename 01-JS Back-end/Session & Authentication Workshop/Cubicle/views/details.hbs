@@ -31,6 +31,8 @@
                 <p><span>Description:</span>{{viewModel.cube.Description}}</p>
                 <p><span>Difficulty level:</span> {{viewModel.cube.DifficultyLevel}}</p>
                 <a class="btn" href="/">Back</a>
+                <a class="btn" href="/edit/{{viewModel.cube.id}}">Edit</a>
+                <a class="btn" href="/delete/{{viewModel.cube.id}}">Delete</a>
             </div>
             <h2>Accessories</h2>
             {{#if viewModel.cube.HasAccessories}}

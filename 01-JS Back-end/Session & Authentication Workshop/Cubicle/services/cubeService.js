@@ -8,12 +8,13 @@ function getByIdAsync(id){
     return context.cubes.findById(id).populate('Accessories');
 }
 
-function createAsync(name, difficultyLevel, imageUrl, description){
+function createAsync(name, difficultyLevel, imageUrl, description, creatorId){
     return context.cubes.create({
         Name: name,
         ImageUrl: imageUrl,
         DifficultyLevel: difficultyLevel,
-        Description: description
+        Description: description,
+        CreatorId: creatorId
     }); 
 }
 
@@ -39,9 +40,21 @@ function searchAsync(search, from, to){
     });
 }
 
+async function isCubeCreatedByUserAsync(cubeId, userId){
+    let cube = await context.cubes.findOne({ _id: cubeId, CreatorId: userId});
+
+    return cube !== null;
+}
+
+async function editAsync(id, name, difficultyLevel, imageUrl, description){
+    return context.cubes.updateOne({_id: id}, { Name: name, Description: description, ImageUrl: imageUrl, DifficultyLevel: difficultyLevel });
+}
+
 module.exports = {
     getAllAsync,
     getByIdAsync,
     createAsync,
-    searchAsync
+    searchAsync,
+    isCubeCreatedByUserAsync,
+    editAsync
 };

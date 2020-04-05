@@ -54,6 +54,7 @@ function createGet(req, res){
 
 async function createPost(req, res){
     let {name, imageUrl, description, difficultyLevel} = req.body;
+    const user = req.user;
 
     difficultyLevel = Number(difficultyLevel);
 
@@ -75,7 +76,7 @@ async function createPost(req, res){
         res.redirect('/');
     }
 
-    await cubeService.createAsync(name, difficultyLevel, imageUrl, description).catch(err => console.log(err));
+    await cubeService.createAsync(name, difficultyLevel, imageUrl, description, user.id).catch(err => console.log(err));
 
     res.redirect('/');
 }
@@ -107,10 +108,66 @@ async function search(req, res){
     res.render('index.hbs', {user: req.cookies[config.authCookieName], search: {search, from, to}, cubes: cubesViewModel});
 }
 
+async function editGet(req, res){
+    const user = req.user;
+    const id = req.params.id;
+
+    if(!await cubeService.isCubeCreatedByUserAsync(id, user.id)){
+        res.redirect('/');
+        return;
+    }
+
+    const cube = await cubeService.getByIdAsync(id);
+
+    const viewModel = {
+        user: req.cookies[config.authCookieName],
+        cube: {
+            id: cube.id,
+            Name: cube.Name,
+            ImageUrl: cube.ImageUrl,
+            Description: cube.Description,
+            DifficultyLevel: cube.DifficultyLevel
+        }
+    };
+
+    res.render('editCube.hbs', {viewModel});
+}
+
+async function editPost(req, res){
+    const id = req.params.id;
+    let {name, imageUrl, description, difficultyLevel} = req.body;
+
+    difficultyLevel = Number(difficultyLevel);
+
+    if(name === null || name === ''){
+        res.redirect('/');
+    }
+
+    const validateImageRegex = new RegExp('^https?://');
+
+    if(!validateImageRegex.test(imageUrl)){
+        res.redirect('/');
+    }
+
+    if(description === null || description === '' || description.length > 200){
+        res.redirect('/');
+    }
+
+    if(difficultyLevel <= 0 || difficultyLevel > 6){
+        res.redirect('/');
+    }
+
+    await cubeService.editAsync(id, name, difficultyLevel, imageUrl, description).catch(err => console.log(err));
+
+    res.redirect('/');
+}
+
 module.exports = {
     all,
     details,
     createGet,
     createPost,
-    search
+    search,
+    editGet,
+    editPost
 };
