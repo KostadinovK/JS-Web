@@ -24,6 +24,9 @@ module.exports = (app) => {
     app.get('/edit/:id', auth(), cubeController.editGet);
     app.post('/edit/:id', auth(), cubeController.editPost);
 
+    app.get('/delete/:id', auth(), cubeController.deleteGet);
+    app.post('/delete/:id', auth(), cubeController.deletePost);
+
     app.post('/search', cubeController.search);
 
     app.get('/details/:id', cubeController.details);

@@ -50,11 +50,17 @@ async function editAsync(id, name, difficultyLevel, imageUrl, description){
     return context.cubes.updateOne({_id: id}, { Name: name, Description: description, ImageUrl: imageUrl, DifficultyLevel: difficultyLevel });
 }
 
+async function deleteAsync(id){
+    return context.cubes.deleteOne({_id: id});
+}
+
+
 module.exports = {
     getAllAsync,
     getByIdAsync,
     createAsync,
     searchAsync,
     isCubeCreatedByUserAsync,
-    editAsync
+    editAsync,
+    deleteAsync
 };

@@ -162,6 +162,38 @@ async function editPost(req, res){
     res.redirect('/');
 }
 
+async function deleteGet(req, res){
+    const user = req.user;
+    const id = req.params.id;
+
+    if(!await cubeService.isCubeCreatedByUserAsync(id, user.id)){
+        res.redirect('/');
+        return;
+    }
+
+    const cube = await cubeService.getByIdAsync(id);
+
+    const viewModel = {
+        user: req.cookies[config.authCookieName],
+        cube: {
+            id: cube.id,
+            Name: cube.Name,
+            ImageUrl: cube.ImageUrl,
+            Description: cube.Description,
+            DifficultyLevel: cube.DifficultyLevel
+        }
+    };
+
+    res.render('deleteCube.hbs', {viewModel});
+}
+
+async function deletePost(req, res){
+    const id = req.params.id;
+
+    await cubeService.deleteAsync(id);
+    res.redirect('/');
+}
+
 module.exports = {
     all,
     details,
@@ -169,5 +201,7 @@ module.exports = {
     createPost,
     search,
     editGet,
-    editPost
+    editPost,
+    deleteGet,
+    deletePost
 };
