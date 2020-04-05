@@ -4,27 +4,27 @@ const config = require('../config/config')[env];
 const userService = require('../services/userService');
 
 function loginGet(req, res){
-    res.render('login.hbs');
+    res.render('login.hbs', {user: req.cookies[config.authCookieName]});
 }
 
 async function loginPost(req, res){
     const { username, password } = req.body;
 
-    let user = await userService.getByUsernameAsync(username).catch(err => console.log(err));
+    let userFromDb = await userService.getByUsernameAsync(username).catch(err => console.log(err));
 
-    if(user === null || !user.matchPassword(password)){
+    if(userFromDb === null || !userFromDb.matchPassword(password)){
         res.redirect('/login');
         return;
     }
 
-    let jwt = userService.login(user.id);
+    let jwt = userService.login(userFromDb.id);
 
     res.cookie(config.authCookieName, jwt);
     res.redirect('/');
 }
 
 function registerGet(req, res){
-    res.render('register.hbs');
+    res.render('register.hbs', {user: req.cookies[config.authCookieName]});
 }
 
 async function registerPost(req, res){
@@ -45,9 +45,9 @@ async function registerPost(req, res){
         return;
     }
 
-    let user = await userService.getByUsernameAsync(username).catch(err => console.log(err));
+    let userFromDb = await userService.getByUsernameAsync(username).catch(err => console.log(err));
 
-    if(user !== null){
+    if(userFromDb !== null){
         res.redirect('/register');
         return;
     }
@@ -58,7 +58,6 @@ async function registerPost(req, res){
 }
 
 function logout(req, res){
-
     res.clearCookie(config.authCookieName);
     res.redirect('/');
 }
