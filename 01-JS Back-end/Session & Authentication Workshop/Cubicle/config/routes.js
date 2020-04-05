@@ -10,6 +10,9 @@ module.exports = (app) => {
     app.post('/register', userController.registerPost);
 
     app.get('/login', userController.loginGet);
+    app.post('/login', userController.loginPost);
+
+    app.get('/logout', userController.logout);
 
     app.get('/', cubeController.all);
 

@@ -4,7 +4,7 @@ const config = require('../config/config')[env];
 const jwt = require('jsonwebtoken');
 
 function create(data) {
-    jwt.sign({ data }, config.secret, { expiresIn: config.jwtExpiringTime });
+    return jwt.sign({ data }, config.secret, { expiresIn: config.jwtExpiringTime });
 }
 
 function verify(token) {

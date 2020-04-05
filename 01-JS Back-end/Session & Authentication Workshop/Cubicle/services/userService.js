@@ -1,4 +1,5 @@
 const context = require('../models/index');
+const jwt = require('../utils/jwt');
 
 function getByIdAsync(id) {
     return context.users.findById(id);
@@ -16,8 +17,14 @@ function registerAsync(username, password){
     });
 }
 
+function login(id){
+
+    return jwt.create( { id } );
+}
+
 module.exports = {
     getByIdAsync,
     getByUsernameAsync,
-    registerAsync
+    registerAsync,
+    login
 }

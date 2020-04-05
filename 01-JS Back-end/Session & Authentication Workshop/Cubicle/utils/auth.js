@@ -13,7 +13,7 @@ function auth() {
             return;
         });
 
-        req.user = await userService.getByIdAsync(userData.id);
+        req.user = await userService.getByIdAsync(userData.data.id);
         next();
     };
 }
