@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 let cubeSchema = new mongoose.Schema({
+    CreatorId: {
+        type: mongoose.SchemaTypes.ObjectId,
+        required: true,
+        ref: 'User'
+    },
     Name: {
         type: String,
         required: true
