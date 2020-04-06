@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Details</title>
+    <link href="/css/site.css" type="text/css" rel="stylesheet">
+    <link rel='shortcut icon' type='image/x-icon' href='/images/favicon.png' />
+</head>
+<body>
+    <div class="container">
+        <header>
+            <ul>
+                <li><img class="logo" src="/images/logo.png"></li>
+        <li><a href="/">Browse</a></li>
+        <li><a href="/create">Add a Cube</a></li>
+        <li><a href="/create/accessory">Add Accessory</a></li>
+        <li><a href="/about">About</a></li>
+        {{#if viewModel.user}}
+        <li><a href="/logout">Logout</a></li>
+        {{else}}
+        <li><a href="/login">Login</a></li>
+        <li><a href="/register">Register</a></li>
+        {{/if}}
+            </ul>
+        </header>
+        <main>
+            <h1>{{viewModel.cube.Name}}</h1>
+            <img class="cube" src="{{viewModel.cube.ImageUrl}}">
+            <div class="details">
+                <p><span>Description:</span>{{viewModel.cube.Description}}</p>
+                <p><span>Difficulty level:</span> {{viewModel.cube.DifficultyLevel}}</p>
+                <a class="btn" href="/">Back</a>
+                <a class="btn" href="/edit/{{viewModel.cube.id}}">Edit</a>
+                <a class="btn" href="/delete/{{viewModel.cube.id}}">Delete</a>
+            </div>
+            <h2>Accessories</h2>
+            {{#if viewModel.cube.HasAccessories}}
+            <div class="accessories">
+                {{#each viewModel.accessories}}
+                <div class="accessory">
+                    <img src="{{this.ImageUrl}}" alt="stickerName">
+                    <h3>{{this.Name}}</h3>
+                    <p>{{this.Description}}</p>
+                </div>
+                {{/each}}
+            </div>
+            {{else}}
+                 <h3 class="italic">This cube has no accessories yet...</h3>
+            {{/if}}
+            
+        </main>
+    </div>
+    <footer>@Cubicle: Exercise for Express.js and Handlebars</footer>
+</body>
+</html>
