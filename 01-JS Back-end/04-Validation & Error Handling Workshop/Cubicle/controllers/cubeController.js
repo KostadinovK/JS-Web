@@ -49,36 +49,45 @@ async function details(req, res){
 }
 
 function createGet(req, res){
-    res.render('create.hbs', {user: req.cookies[config.authCookieName]});
+    const error = req.query.error;
+
+    res.render('create.hbs', {error, user: req.cookies[config.authCookieName]});
 }
 
 async function createPost(req, res){
     let {name, imageUrl, description, difficultyLevel} = req.body;
     const user = req.user;
 
-    difficultyLevel = Number(difficultyLevel);
+    let error = '';
 
+    difficultyLevel = Number(difficultyLevel);
+    
     if(name === null || name === ''){
-        res.redirect('/');
+        error += 'Name must be not null or empty string\n';
     }
 
     const validateImageRegex = new RegExp('^https?://');
 
     if(!validateImageRegex.test(imageUrl)){
-        res.redirect('/');
+        error += 'Image must have valid url\n';
     }
 
-    if(description === null || description === '' || description.length > 200){
-        res.redirect('/');
+    if(description === null || description === ''){
+        error += 'Description must be not null or empry string\n';
     }
 
     if(difficultyLevel <= 0 || difficultyLevel > 6){
-        res.redirect('/');
+        error += 'Difficulty Level must be between 1 and 6\n';
     }
 
-    await cubeService.createAsync(name, difficultyLevel, imageUrl, description, user.id).catch(err => console.log(err));
+    if(error !== ''){
+        res.redirect(`/create?error=${error}`);
+        return;
+    }
 
-    res.redirect('/');
+    await cubeService.createAsync(name, difficultyLevel, imageUrl, description, user.id).catch(err => {res.redirect(`/create?error=${error}`); return;});
+
+    res.redirect(`/`);
 }
 
 async function search(req, res){
@@ -112,6 +121,8 @@ async function editGet(req, res){
     const user = req.user;
     const id = req.params.id;
 
+    const error = req.query.error;
+
     if(!await cubeService.isCubeCreatedByUserAsync(id, user.id)){
         res.redirect('/');
         return;
@@ -120,6 +131,7 @@ async function editGet(req, res){
     const cube = await cubeService.getByIdAsync(id);
 
     const viewModel = {
+        error,
         user: req.cookies[config.authCookieName],
         cube: {
             id: cube.id,
@@ -137,27 +149,34 @@ async function editPost(req, res){
     const id = req.params.id;
     let {name, imageUrl, description, difficultyLevel} = req.body;
 
+    let error = '';
+
     difficultyLevel = Number(difficultyLevel);
 
     if(name === null || name === ''){
-        res.redirect('/');
+        error += 'Name must be not null or empty string\n';
     }
 
     const validateImageRegex = new RegExp('^https?://');
 
     if(!validateImageRegex.test(imageUrl)){
-        res.redirect('/');
+        error += 'Image must have valid url\n';
     }
 
-    if(description === null || description === '' || description.length > 200){
-        res.redirect('/');
+    if(description === null || description === ''){
+        error += 'Description must be not null or empry string\n';
     }
 
     if(difficultyLevel <= 0 || difficultyLevel > 6){
-        res.redirect('/');
+        error += 'Difficulty Level must be between 1 and 6\n';
+    }
+    
+    if(error !== '') {
+        res.redirect(`/edit/${id}?error=${error}`);
+        return;
     }
 
-    await cubeService.editAsync(id, name, difficultyLevel, imageUrl, description).catch(err => console.log(err));
+    await cubeService.editAsync(id, name, difficultyLevel, imageUrl, description).catch(err => {res.redirect(`/edit/${id}?error=${err.message}`); return;});
 
     res.redirect('/');
 }

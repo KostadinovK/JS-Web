@@ -28,6 +28,11 @@
     <main>
 	<h1>Edit Cube</h1>
 <div class="form">
+    {{#if viewModel.error}}
+        <div id="notifications">
+          <p id="notification-message">{{viewModel.error}}</p>
+        </div>
+    {{/if}}
   <form action='/edit/{{viewModel.cube.id}}' method="POST">
     <label for="name">Name</label>
     <input type="text" id="name" name="name" value="{{viewModel.cube.Name}}">

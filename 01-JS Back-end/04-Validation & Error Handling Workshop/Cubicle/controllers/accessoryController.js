@@ -5,27 +5,39 @@ const accessoryService = require('../services/accessoryService');
 const cubeService = require('../services/cubeService');
 
 function createGet(req, res){
-    res.render('createAccessory.hbs', {user: req.cookies[config.authCookieName]});
+    const error = req.query.error;
+
+    res.render('createAccessory.hbs', {error, user: req.cookies[config.authCookieName]});
 }
 
 async function createPost(req, res){
     let {name, imageUrl, description} = req.body;
+    let error = '';
 
     if(name === null || name === ''){
-        res.redirect('/');
+        error += 'Name must be not null or empty\n';
+    }
+
+    if(name.length < 5){
+        error += 'Name must be atleast with length 5\n';
     }
 
     const validateImageRegex = new RegExp('^https?://');
 
     if(!validateImageRegex.test(imageUrl)){
-        res.redirect('/');
+        error += 'Image must have valid url\n';
     }
 
-    if(description === null || description === '' || description.length > 200){
-        res.redirect('/');
+    if(description === null || description === ''){
+        error += 'Description must be not null or empty\n';
+    }
+    
+    if(error !== '') {
+        res.redirect(`/create/accessory?error=${error}`);
+        return;
     }
 
-    await accessoryService.createAsync(name, imageUrl, description).catch(err => console.log(err));
+    await accessoryService.createAsync(name, imageUrl, description).catch(err => {res.redirect(`/create/accessory?error=${err.message}`); return;});
 
     res.redirect('/');
 }
