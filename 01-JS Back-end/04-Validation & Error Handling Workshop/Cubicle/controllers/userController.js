@@ -30,12 +30,14 @@ function registerGet(req, res){
 async function registerPost(req, res){
     const { username, password, repeatPassword} = req.body;
 
-    if(username === null || username === ''){
+    const validateUsernameAndPassRegex = new RegExp('^[a-zA-Z0-9]*$');
+
+    if(username === null || username.length < 5 || !validateUsernameAndPassRegex.test(username)){
         res.redirect('/register');
         return;
     }
 
-    if(password === null || password === ''){
+    if(password === null || password.length < 8 || !validateUsernameAndPassRegex.test(password)){
         res.redirect('/register');
         return;
     }
