@@ -27,7 +27,7 @@ function App() {
           <Aside />
           <Switch>
             <Route path='/' exact render={render('Posts', PostsList)}/>
-            <Route path='/share' render={render('Share your Thoughts', ShareThought)}/>
+            <Route path='/share' render={render('', ShareThought)}/>
             <Route path='*' render={render('Something went wrong', NotFound)}/>
           </Switch>
         </div>

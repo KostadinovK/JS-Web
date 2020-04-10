@@ -1,11 +1,14 @@
 import React from 'react';
 
+import './ShareThought.css';
+
 import PostsList from '../PostsList/PostsList';
 
 function ShareThought() {
     return (
-        <React.Fragment>
+        <div className='Input'>
             <div>
+                <h1>Share your thoughs</h1>
                 <textarea></textarea>
                 <button>Post</button>
             </div>
@@ -13,7 +16,7 @@ function ShareThought() {
             <div>
                 <PostsList count='3'></PostsList>
             </div>
-        </React.Fragment>
+        </div>
 
     );
 }
