@@ -10,13 +10,14 @@ import Footer from '../Footer/Footer';
 
 import Register from '../Register/Register';
 import Login from '../Login/Login';
+import Profile from '../Profile/Profile';
 import PostsList from '../PostsList/PostsList';
 import ShareThought from '../ShareThought/ShareThought';
 import NotFound from '../NotFound/NotFound';
 
 function render(title, Cmp) {
   return function ({ match }) {
-    return <Main title={title}><Cmp match={match} /></Main>
+    return <Main><Cmp title={title} match={match} /></Main>
   };
 }
 
@@ -31,6 +32,7 @@ function App() {
             <Route path='/' exact render={render('Posts', PostsList)}/>
             <Route path='/register' render={render('', Register)}/>
             <Route path='/login' render={render('', Login)}/>
+            <Route path='/profile' render={render('', Profile)}/>
             <Route path='/share' render={render('', ShareThought)}/>
             <Route path='*' render={render('Something went wrong', NotFound)}/>
           </Switch>

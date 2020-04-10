@@ -14,7 +14,7 @@ function ShareThought() {
             </div>
 
             <div>
-                <PostsList count='3'></PostsList>
+                <PostsList title='Last 3 posts' count='3'></PostsList>
             </div>
         </div>
 
