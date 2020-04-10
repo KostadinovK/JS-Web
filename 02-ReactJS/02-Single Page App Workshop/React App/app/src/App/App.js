@@ -8,6 +8,8 @@ import Aside from '../Aside/Aside';
 import Main from '../Main/Main';
 import Footer from '../Footer/Footer';
 
+import Register from '../Register/Register';
+import Login from '../Login/Login';
 import PostsList from '../PostsList/PostsList';
 import ShareThought from '../ShareThought/ShareThought';
 import NotFound from '../NotFound/NotFound';
@@ -27,6 +29,8 @@ function App() {
           <Aside />
           <Switch>
             <Route path='/' exact render={render('Posts', PostsList)}/>
+            <Route path='/register' render={render('', Register)}/>
+            <Route path='/login' render={render('', Login)}/>
             <Route path='/share' render={render('', ShareThought)}/>
             <Route path='*' render={render('Something went wrong', NotFound)}/>
           </Switch>
