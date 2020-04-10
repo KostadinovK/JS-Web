@@ -9,6 +9,7 @@ import Main from '../Main/Main';
 import Footer from '../Footer/Footer';
 
 import PostsList from '../PostsList/PostsList';
+import ShareThought from '../ShareThought/ShareThought';
 import NotFound from '../NotFound/NotFound';
 
 function render(title, Cmp) {
@@ -26,6 +27,7 @@ function App() {
           <Aside />
           <Switch>
             <Route path='/' exact render={render('Posts', PostsList)}/>
+            <Route path='/share' render={render('Share your Thoughts', ShareThought)}/>
             <Route path='*' render={render('Something went wrong', NotFound)}/>
           </Switch>
         </div>
