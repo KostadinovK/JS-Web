@@ -61,12 +61,12 @@ class App extends React.Component {
             <Aside isLoggedIn={isLoggedIn}/>
             <Switch>
               <Route path='/' exact render={this.renderCmp('Posts', PostsList)}/>
-              <Route path='/register' render={this.renderCmp('', Register)}/>
+              <Route path='/register' render={this.renderCmp('', Register, { isLoggedIn })}/>
               <Route path='/login' render={this.renderCmp('', Login, { isLoggedIn, login: this.login })}/>
-              <Route path='/profile' render={this.renderCmp('', Profile)}/>
-              <Route path='/share' render={this.renderCmp('', ShareThought)}/>
+              <Route path='/profile' render={this.renderCmp('', Profile, { isLoggedIn })}/>
+              <Route path='/share' render={this.renderCmp('', ShareThought, { isLoggedIn })}/>
               <Route path="/logout" render={this.renderCmp('', Logout, { isLoggedIn, logout: this.logout })} />
-              <Route path='*' render={this.renderCmp('Something went wrong', NotFound)}/>
+              <Route path='*' render={this.renderCmp('', NotFound)}/>
             </Switch>
           </div>
           <Footer isLoggedIn={isLoggedIn}/>

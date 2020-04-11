@@ -4,7 +4,12 @@ import './Profile.css';
 
 import PostsList from '../PostsList/PostsList';
 
-function Profile() {
+function Profile({isLoggedIn, history}) {
+    if(!isLoggedIn) {
+        history.push('/');
+        return null;
+    }
+
     return (
         <div className='Profile'>
             <img src='/blue-origami-bird-flipped' alt='profile'/>

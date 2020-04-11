@@ -9,11 +9,11 @@ function Aside({isLoggedIn}) {
         <aside className='Aside'>
           <ul>
                 <Link url='/'>Posts</Link>
-                {isLoggedIn && <Link to="/share">New Post</Link>}
-                {isLoggedIn && <Link to="/profile">Profile</Link>}
-                {!isLoggedIn && <Link to="/register">Register</Link>}
-                {!isLoggedIn && <Link to="/login">Login</Link>}
-                {isLoggedIn && <Link to="/logout">Logout</Link>}
+                {isLoggedIn && <Link url="/share">New Post</Link>}
+                {isLoggedIn && <Link url="/profile">Profile</Link>}
+                {!isLoggedIn && <Link url="/register">Register</Link>}
+                {!isLoggedIn && <Link url="/login">Login</Link>}
+                {isLoggedIn && <Link url="/logout">Logout</Link>}
             </ul>
         </aside>
     );

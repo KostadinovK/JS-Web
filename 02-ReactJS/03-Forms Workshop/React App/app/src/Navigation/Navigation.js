@@ -11,11 +11,11 @@ function Navigation({isLoggedIn}){
                     <img id="logo" src="/white-origami-bird.png" alt="my-app-logo" />
                 </Link>
                 <Link url='/'>Posts</Link>
-                {isLoggedIn && <Link to="/share">New Post</Link>}
-                {isLoggedIn && <Link to="/profile">Profile</Link>}
-                {!isLoggedIn && <Link to="/register">Register</Link>}
-                {!isLoggedIn && <Link to="/login">Login</Link>}
-                {isLoggedIn && <Link to="/logout">Logout</Link>}
+                {isLoggedIn && <Link url="/share">New Post</Link>}
+                {isLoggedIn && <Link url="/profile">Profile</Link>}
+                {!isLoggedIn && <Link url="/register">Register</Link>}
+                {!isLoggedIn && <Link url="/login">Login</Link>}
+                {isLoggedIn && <Link url="/logout">Logout</Link>}
             </ul>
         </nav>
     );

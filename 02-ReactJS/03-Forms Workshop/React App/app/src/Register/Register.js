@@ -35,20 +35,27 @@ class Register extends React.Component {
     };
 
     render(){
+        const { isLoggedIn } = this.props;
+        
+        if(isLoggedIn){
+            this.props.history.push('/');
+            return null;
+        }
+
         return (
             <div className='Register'>
                 <h1>Register</h1>
                 <form onSubmit={this.onRegisterSubmit}>
                     <div className='form-control'>
-                        <label forHtml='email'>Email</label>
+                        <label htmlFor='email'>Email</label>
                         <input type='text' id='email' onChange={this.onInputChange}></input>
                     </div>
                     <div className='form-control'>
-                        <label forHtml='pass'>Password</label>
+                        <label htmlFor='pass'>Password</label>
                         <input type='password' id='pass' onChange={this.onInputChange}></input>
                     </div>
                     <div className='form-control'>
-                        <label forHtml='rePass'>Repeat Password</label>
+                        <label htmlFor='rePass'>Repeat Password</label>
                         <input type='password' id='rePass' onChange={this.onInputChange}></input>
                     </div>
                     <div className='form-control'>

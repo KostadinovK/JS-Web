@@ -4,7 +4,12 @@ import './ShareThought.css';
 
 import PostsList from '../PostsList/PostsList';
 
-function ShareThought() {
+function ShareThought({isLoggedIn, history}) {
+    if(!isLoggedIn) {
+        history.push('/');
+        return null;
+    }
+     
     return (
         <div className='Input'>
             <div>

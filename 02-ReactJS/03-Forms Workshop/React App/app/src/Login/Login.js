@@ -31,16 +31,23 @@ class Login extends React.Component {
 
 
     render(){
+        const { isLoggedIn } = this.props;
+        
+        if(isLoggedIn){
+            this.props.history.push('/');
+            return null;
+        }
+        
         return (
             <div className='Login'>
                 <h1>Login</h1>
                 <form onSubmit={this.onLoginSubmit}>
                     <div className='form-control'>
-                        <label forHtml='email'>Email</label>
+                        <label htmlFor='email'>Email</label>
                         <input type='text' id='email' onChange={this.onInputChange}></input>
                     </div>
                     <div className='form-control'>
-                        <label forHtml='pass'>Password</label>
+                        <label htmlFor='pass'>Password</label>
                         <input type='password' id='pass' onChange={this.onInputChange}></input>
                     </div>
                     <div className='form-control'>
