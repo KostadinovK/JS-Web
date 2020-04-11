@@ -1,10 +1,6 @@
 import React from 'react';
-import Cookies from 'js-cookie';
 
 import '../shared/styles/LoginAndRegister.css';
-
-import service from '../services/userService';
-
 
 class Login extends React.Component {
 
@@ -30,12 +26,7 @@ class Login extends React.Component {
         event.preventDefault();
         
         const {email, pass} = this.state.form;
-
-        let data = await service.login(email, pass);
-        
-        this.props.history.push('/', {id: data.user._id, username: data.user.username, isLogged: true});
-        Cookies.set('x-auth-token', data.token);
-        console.log(this.props.history);
+        this.props.login(this.props.history, email, pass);
     };
 
 
@@ -45,11 +36,11 @@ class Login extends React.Component {
                 <h1>Login</h1>
                 <form onSubmit={this.onLoginSubmit}>
                     <div className='form-control'>
-                        <label for='email'>Email</label>
+                        <label forHtml='email'>Email</label>
                         <input type='text' id='email' onChange={this.onInputChange}></input>
                     </div>
                     <div className='form-control'>
-                        <label for='pass'>Password</label>
+                        <label forHtml='pass'>Password</label>
                         <input type='password' id='pass' onChange={this.onInputChange}></input>
                     </div>
                     <div className='form-control'>

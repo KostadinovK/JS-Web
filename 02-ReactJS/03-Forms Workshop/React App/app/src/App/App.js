@@ -18,37 +18,58 @@ import PostsList from '../PostsList/PostsList';
 import ShareThought from '../ShareThought/ShareThought';
 import NotFound from '../NotFound/NotFound';
 
+import userService from '../services/userService';
+
 class App extends React.Component {
 
-  logout = (history) => {
-    history.push('/', {username: null, id: null, isLoggedIn: false});
-    Cookies.remove('x-auth-token');
+  constructor(props) {
+    super(props);
+    
+    const isLoggedIn = Cookies.get('x-auth-token');
+
+    this.state = { isLoggedIn };
   }
 
-  renderCmp(title, Cmp) {
+  logout = (history) => {
+    Cookies.remove('x-auth-token');
+    this.setState({isLoggedIn: false});
+    history.push('/', {});
+  }
+
+  login = (history, username, password) => {
+    userService.login(username, password).then((data) => {
+      Cookies.set('x-auth-token', data.token);
+      this.setState({ isLoggedIn: true });
+      history.push('/', {id: data.user._id, username: data.user.username});
+    });
+  }
+
+  renderCmp(title, Cmp, props) {
     return function ({ match, history }) {
-      return <Main><Cmp title={title} match={match} history={history}/></Main>
+      return <Main><Cmp title={title} match={match} history={history} {...props}/></Main>
     };
   };
 
   render(){
+    const { isLoggedIn } = this.state;
+
     return (
       <Router>
         <div className="App">
-          <Navigation />
+          <Navigation isLoggedIn={isLoggedIn} />
           <div className="Container">
-            <Aside />
+            <Aside isLoggedIn={isLoggedIn}/>
             <Switch>
               <Route path='/' exact render={this.renderCmp('Posts', PostsList)}/>
               <Route path='/register' render={this.renderCmp('', Register)}/>
-              <Route path='/login' render={this.renderCmp('', Login)}/>
+              <Route path='/login' render={this.renderCmp('', Login, { isLoggedIn, login: this.login })}/>
               <Route path='/profile' render={this.renderCmp('', Profile)}/>
               <Route path='/share' render={this.renderCmp('', ShareThought)}/>
-              <Route path="/logout"render={this.renderCmp('', Logout)} />
+              <Route path="/logout" render={this.renderCmp('', Logout, { isLoggedIn, logout: this.logout })} />
               <Route path='*' render={this.renderCmp('Something went wrong', NotFound)}/>
             </Switch>
           </div>
-          <Footer />
+          <Footer isLoggedIn={isLoggedIn}/>
         </div>
       </Router>
     );

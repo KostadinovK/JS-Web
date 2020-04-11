@@ -3,7 +3,7 @@ import './Navigation.css';
 
 import Link from '../shared/Link/Link';
 
-function Navigation(){
+function Navigation({isLoggedIn}){
     return (
         <nav className="Navigation">
             <ul>
@@ -11,11 +11,11 @@ function Navigation(){
                     <img id="logo" src="/white-origami-bird.png" alt="my-app-logo" />
                 </Link>
                 <Link url='/'>Posts</Link>
-                <Link url='/share'>Share</Link>
-                <Link url='/profile'>Profile</Link>
-                <Link url='/register'>Register</Link>
-                <Link url='/login'>Login</Link>
-                <Link url='/logout'>Logout</Link>
+                {isLoggedIn && <Link to="/share">New Post</Link>}
+                {isLoggedIn && <Link to="/profile">Profile</Link>}
+                {!isLoggedIn && <Link to="/register">Register</Link>}
+                {!isLoggedIn && <Link to="/login">Login</Link>}
+                {isLoggedIn && <Link to="/logout">Logout</Link>}
             </ul>
         </nav>
     );

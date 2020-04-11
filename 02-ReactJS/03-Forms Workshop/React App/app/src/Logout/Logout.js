@@ -1,10 +1,8 @@
 import React from 'react';
-import Cookies from 'js-cookie';
 
-function Logout({ history }) {
-    Cookies.remove('x-auth-token');
-    history.push('/', {isLoggedIn: false});
-    return null;
+function Logout({ logout, history }) {
+  logout(history);
+  return null;
 }
 
 export default Logout;
