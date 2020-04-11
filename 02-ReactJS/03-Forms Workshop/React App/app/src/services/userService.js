@@ -12,4 +12,16 @@ function register(username, password){
     }).then(resp => resp.json());
 }
 
-export default { register };
+function login(username, password){
+    const url = baseUrl + '/login';
+
+    return fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify({username, password})
+    }).then(resp => resp.json());
+}
+
+export default { register, login };

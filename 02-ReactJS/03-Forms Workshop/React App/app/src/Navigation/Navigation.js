@@ -15,6 +15,7 @@ function Navigation(){
                 <Link url='/profile'>Profile</Link>
                 <Link url='/register'>Register</Link>
                 <Link url='/login'>Login</Link>
+                <Link url='/logout'>Logout</Link>
             </ul>
         </nav>
     );
