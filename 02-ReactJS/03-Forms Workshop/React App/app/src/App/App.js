@@ -16,8 +16,8 @@ import ShareThought from '../ShareThought/ShareThought';
 import NotFound from '../NotFound/NotFound';
 
 function render(title, Cmp) {
-  return function ({ match }) {
-    return <Main><Cmp title={title} match={match} /></Main>
+  return function ({ match, history }) {
+    return <Main><Cmp title={title} match={match} history={history}/></Main>
   };
 }
 
