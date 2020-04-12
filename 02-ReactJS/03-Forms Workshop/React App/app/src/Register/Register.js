@@ -15,20 +15,8 @@ class Register extends React.Component {
         };
     };
 
-    onInputChange = (event) => {
-        const name = event.target.id;
-        const value = event.target.value;
+    validate = (email, pass, rePass) => {
 
-        this.setState(({ form }) => {
-            return { form: { ...form, [name]: value } };
-        });
-    };
-
-    onRegisterSubmit = async (event) => {
-        event.preventDefault();
-        
-        const {email, pass, rePass} = this.state.form;
-        
         this.setState(({ error }) => {
             return { error: null };
         });
@@ -56,6 +44,22 @@ class Register extends React.Component {
 
             return null;
         }
+    }
+    onInputChange = (event) => {
+        const name = event.target.id;
+        const value = event.target.value;
+
+        this.setState(({ form }) => {
+            return { form: { ...form, [name]: value } };
+        });
+    };
+
+    onRegisterSubmit = async (event) => {
+        event.preventDefault();
+        
+        const {email, pass, rePass} = this.state.form;
+        
+        this.validate(email, pass, rePass);
 
         await service.register(email, pass);
         this.props.history.push('/login');

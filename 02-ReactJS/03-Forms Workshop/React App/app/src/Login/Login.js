@@ -13,20 +13,7 @@ class Login extends React.Component {
         };
     }
 
-    onInputChange = (event) => {
-        const name = event.target.id;
-        const value = event.target.value;
-
-        this.setState(({ form }) => {
-            return { form: { ...form, [name]: value } };
-        });
-    };
-
-    onLoginSubmit = async (event) => {
-        event.preventDefault();
-        
-        const {email, pass} = this.state.form;
-
+    validate = (email, pass) => {
         this.setState(({ error }) => {
             return { error: null };
         });
@@ -46,6 +33,23 @@ class Login extends React.Component {
 
             return null;
         }
+    };
+
+    onInputChange = (event) => {
+        const name = event.target.id;
+        const value = event.target.value;
+
+        this.setState(({ form }) => {
+            return { form: { ...form, [name]: value } };
+        });
+    };
+
+    onLoginSubmit = async (event) => {
+        event.preventDefault();
+        
+        const {email, pass} = this.state.form;
+
+        this.validate(email, pass);
         
         this.props.login(this.props.history, email, pass);
     };
