@@ -9,6 +9,7 @@ import postService from '../services/postService';
 function ShareThought({isLoggedIn, history}) {
 
     const [description, setDescription] = useState('');
+    const [error, setError] = useState('');
 
     if(!isLoggedIn) {
         history.push('/');
@@ -18,7 +19,14 @@ function ShareThought({isLoggedIn, history}) {
     const onFormSubmit = async (e) => {
         e.preventDefault();
 
-        await postService.create(description);
+        if(description === null || description === ''){
+            setError('Description is required!');
+            return null;
+        }
+
+        setError(null);
+
+        //await postService.create(description);
         history.push('/');
     }
     
@@ -27,6 +35,7 @@ function ShareThought({isLoggedIn, history}) {
             <div>
                 <form onSubmit={onFormSubmit}>
                     <h1>Share your thoughs</h1>
+                    {error ? <div className='error-message'>{error}</div> : <div></div>}
                     <textarea onChange={(e) => setDescription(e.target.value)}></textarea>
                     <button type='submit'>Post</button>
                 </form>
