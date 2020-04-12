@@ -1,21 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import './ShareThought.css';
 
 import PostsList from '../PostsList/PostsList';
 
+import postService from '../services/postService';
+
 function ShareThought({isLoggedIn, history}) {
+
+    const [description, setDescription] = useState('');
+
     if(!isLoggedIn) {
         history.push('/');
         return null;
     }
-     
+
+    const onFormSubmit = async (e) => {
+        e.preventDefault();
+
+        await postService.create(description);
+        history.push('/');
+    }
+    
     return (
         <div className='Input'>
             <div>
-                <h1>Share your thoughs</h1>
-                <textarea></textarea>
-                <button>Post</button>
+                <form onSubmit={onFormSubmit}>
+                    <h1>Share your thoughs</h1>
+                    <textarea onChange={(e) => setDescription(e.target.value)}></textarea>
+                    <button type='submit'>Post</button>
+                </form>
             </div>
 
             <div>

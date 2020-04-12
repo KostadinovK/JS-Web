@@ -32,6 +32,8 @@ class App extends React.Component {
 
   logout = (history) => {
     Cookies.remove('x-auth-token');
+    Cookies.remove('username');
+    Cookies.remove('userId');
     this.setState({isLoggedIn: false});
     history.push('/', {});
   }
@@ -39,8 +41,10 @@ class App extends React.Component {
   login = (history, username, password) => {
     userService.login(username, password).then((data) => {
       Cookies.set('x-auth-token', data.token);
+      Cookies.set('username', data.user.username);
+      Cookies.set('userId', data.user._id);
       this.setState({ isLoggedIn: true });
-      history.push('/', {id: data.user._id, username: data.user.username});
+      history.push('/');
     });
   }
 
@@ -52,7 +56,7 @@ class App extends React.Component {
 
   render(){
     const { isLoggedIn } = this.state;
-
+   
     return (
       <Router>
         <div className="App">
