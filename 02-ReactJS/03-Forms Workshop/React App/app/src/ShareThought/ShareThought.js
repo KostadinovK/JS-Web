@@ -26,7 +26,7 @@ function ShareThought({isLoggedIn, history}) {
 
         setError(null);
 
-        //await postService.create(description);
+        await postService.create(description);
         history.push('/');
     }
     
